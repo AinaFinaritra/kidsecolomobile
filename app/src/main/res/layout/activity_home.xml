@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFE6E6"
+    tools:context=".HomeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#4C3E3E"
+                android:backgroundTint="@color/purple_500"
+                android:drawableTop="@drawable/ic_baseline_home_24"
+                android:text="Home" />
+
+            <Button
+                android:id="@+id/btnScore"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#4C3E3E"
+                android:backgroundTint="@color/purple_500"
+                android:drawableTop="@drawable/ic_baseline_score_24"
+                android:text="score" />
+
+            <Button
+                android:id="@+id/btnSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#3F51B5"
+                android:backgroundTint="@color/purple_500"
+                android:drawableTop="@drawable/ic_baseline_settings_applications_24"
+                android:text="setting" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment"
+            android:layout_width="match_parent"
+            android:layout_height="662dp">
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
