@@ -1,10 +1,12 @@
-package com.example.ecomania;
+package com.example.ecomania.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.ecomania.R;
 
 public class MainActivity extends AppCompatActivity {
 
