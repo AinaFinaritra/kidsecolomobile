@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_logo"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="80dp" />
+        tools:layout_editor_absoluteY="80dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:layout_width="wrap_content"
