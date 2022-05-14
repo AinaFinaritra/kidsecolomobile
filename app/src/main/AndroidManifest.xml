@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ecomania">
         <activity
+            android:name=".view.DetailHomeActivity2"
+            android:exported="false" />
+        <activity
             android:name=".view.HomeActivity"
             android:exported="false" />
         <activity

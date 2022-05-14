@@ -10,15 +10,24 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.ecomania.R;
+import com.example.ecomania.controller.ThemeController;
 
 public class HomeActivity extends AppCompatActivity {
 
+    //propreties
     Button home_fragment_button;
     Button score_fragment_button;
     Button setting_fragment_button;
+    private ThemeController themeController;
+
+    private void init(){
+        this.themeController = ThemeController.getInstance();
+        this.themeController.makeThemeTest();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        init();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -51,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment, fragment);
