@@ -58,6 +58,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        replaceFragment(new HomeFragment());
+
     }
 
     public void replaceFragment(Fragment fragment) {

@@ -2,6 +2,7 @@ package com.example.ecomania.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecomania.R;
 import com.example.ecomania.model.DetailsTheme;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
+
+import com.example.ecomania.utils.LoadImage;
 
 public class DetailThemeItemAdapter extends RecyclerView.Adapter<DetailThemeItemAdapter.MyViewHolder> {
 
@@ -63,21 +63,13 @@ public class DetailThemeItemAdapter extends RecyclerView.Adapter<DetailThemeItem
 
         //affichage image
         String image_url = detailsThemeArrayList.get(position).getImage();
-        try {
-            URL newurl = new URL(image_url);
-            Bitmap imagebip = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
-            holder.image.setImageBitmap(imagebip);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        LoadImage loadImage = new LoadImage(holder.image);
+        loadImage.execute(image_url);
 
         //affichage video
         String video_url = detailsThemeArrayList.get(position).getVideo();
         holder.video.setVideoPath(video_url);
-        //holder.video.start();
-
+        holder.video.start();
 
     }
 
@@ -85,4 +77,5 @@ public class DetailThemeItemAdapter extends RecyclerView.Adapter<DetailThemeItem
     public int getItemCount() {
         return detailsThemeArrayList.size();
     }
+
 }
