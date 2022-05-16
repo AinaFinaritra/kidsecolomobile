@@ -5,11 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".view.ScoreFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="score fragement"
-        android:layout_centerInParent="true"/>
-
+    <ListView
+        android:id="@+id/lst_score"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>
