@@ -29,6 +29,7 @@ public class ThemeController {
     public ArrayList<HashMap<String, String>> makeThemeTest(){
 
         HashMap<String,String> map = new HashMap<String,String>();
+        themes = new ArrayList<HashMap<String, String>>();
         map.put("theme", "ecologie");
         map.put("description", "test ecologie");
         themes.add(map);
