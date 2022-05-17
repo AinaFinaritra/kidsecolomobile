@@ -1,5 +1,7 @@
 package com.example.ecomania.controller;
 
+import android.content.Context;
+
 import com.example.ecomania.model.Theme;
 
 import java.util.ArrayList;
@@ -26,7 +28,10 @@ public class ThemeController {
         return instance;
     }
 
-    public ArrayList<HashMap<String, String>> makeThemeTest(){
+    public ArrayList<HashMap<String, String>> makeThemeTest(Context context){
+
+        theme = new Theme();
+        theme.getThemes(context);
 
         HashMap<String,String> map = new HashMap<String,String>();
         map.put("theme", "ecologie");

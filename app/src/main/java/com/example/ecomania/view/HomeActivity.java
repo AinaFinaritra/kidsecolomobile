@@ -22,7 +22,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void init(){
         this.themeController = ThemeController.getInstance();
-        this.themeController.makeThemeTest();
+        this.themeController.makeThemeTest(this);
     }
 
     @Override
