@@ -34,6 +34,7 @@ public class ThemeController {
         theme.getThemes(context);
 
         HashMap<String,String> map = new HashMap<String,String>();
+        themes = new ArrayList<HashMap<String, String>>();
         map.put("theme", "ecologie");
         map.put("description", "test ecologie");
         themes.add(map);
