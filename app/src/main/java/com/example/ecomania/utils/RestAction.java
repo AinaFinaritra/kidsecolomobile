@@ -24,18 +24,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 
 public class RestAction {
-
-    private JSONObject result;
-
-    private void setResult(JSONObject result){
-        this.result = result;
-    }
-
+    public String res;
     //constructor
     public RestAction(){}
 
     //getMethod
-    public JSONObject getMethod(String url, Context context, final VolleyCallBack callBack){
+    public void getMethod(String url, Context context){
         //attribute
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -47,7 +41,7 @@ public class RestAction {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.e("error restapi get", response.toString());
-                        callBack.onSuccess(response);
+                        res = response.toString();
                     }
                 },
                 new Response.ErrorListener(){
@@ -58,7 +52,6 @@ public class RestAction {
                 }
         );
         requestQueue.add(objectRequest);
-        return result;
     }
 
 }

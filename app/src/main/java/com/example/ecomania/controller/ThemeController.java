@@ -28,13 +28,12 @@ public class ThemeController {
         return instance;
     }
 
-    public ArrayList<HashMap<String, String>> makeThemeTest(Context context){
+    public ArrayList<HashMap<String, String>> makeThemeTest(){
 
-        theme = new Theme();
-        theme.getThemes(context);
 
         HashMap<String,String> map = new HashMap<String,String>();
         themes = new ArrayList<HashMap<String, String>>();
+
         map.put("theme", "ecologie");
         map.put("description", "test ecologie");
         themes.add(map);

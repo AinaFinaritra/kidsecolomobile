@@ -14,6 +14,9 @@ import android.widget.SimpleAdapter;
 
 import com.example.ecomania.R;
 import com.example.ecomania.controller.ThemeController;
+import com.example.ecomania.model.Theme;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +25,7 @@ public class HomeFragment extends Fragment {
 
     View view;
     ListView liste_theme;
+    public JSONObject tmp_theme;
     private ThemeController themeController;
 
     @Override
@@ -32,10 +36,16 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         liste_theme = (ListView) view.findViewById(R.id.liste_theme);
 
+        //dynamique test
+        Theme themeModel = new Theme();
+        themeModel.getThemes(view.getContext());
+
         // static data
+        this.themeController.makeThemeTest();
         ArrayList<HashMap<String, String>> theme = new ArrayList<HashMap<String,String>>();
         theme = this.themeController.getThemeTest();
         // static data end
+
 
         // affichage de la liste
         SimpleAdapter adapter = new SimpleAdapter(view.getContext(), theme, R.layout.theme_item,

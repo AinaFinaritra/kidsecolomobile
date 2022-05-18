@@ -24,8 +24,6 @@ public class HomeActivity extends AppCompatActivity {
     private ThemeController themeController;
 
     private void init(){
-        this.themeController = ThemeController.getInstance();
-        this.themeController.makeThemeTest();
         //begin presistant login
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor edit = pref.edit();

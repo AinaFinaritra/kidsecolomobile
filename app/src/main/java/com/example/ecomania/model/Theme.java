@@ -1,15 +1,10 @@
 package com.example.ecomania.model;
 
 import android.content.Context;
-import android.util.JsonReader;
 import android.util.Log;
 
 import com.example.ecomania.utils.RestAction;
-import com.example.ecomania.utils.VolleyCallBack;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,12 +45,8 @@ public class Theme {
         HashMap<String,String> map = new HashMap<String,String>();
 
         RestAction api = new RestAction();
-        /*JSONObject result = api.getMethod("https://kidsecolonode.herokuapp.com/theme/all", context, new VolleyCallBack() {
-            @Override
-            public JSONObject onSuccess(JSONObject object) {
-                return object;
-            }
-        });*/
+        api.getMethod("https://kidsecolonode.herokuapp.com/theme/all", context);
+        //Log.e("res? ", api.res);
 
         String test = "";
 
