@@ -4,32 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.DetailHomeActivity2">
+    tools:context=".view.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/lbl_titre"
+        <EditText
+            android:id="@+id/activity_login_usernameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name" />
 
-        <Button
-            android:id="@+id/btn_quiz"
+        <EditText
+            android:id="@+id/activity_main_passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="QUIZ" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcl_detail_theme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

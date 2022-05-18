@@ -5,8 +5,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ecomania.R;
 import com.example.ecomania.adapter.DetailThemeItemAdapter;
@@ -29,6 +33,7 @@ public class DetailHomeActivity2 extends AppCompatActivity {
     private DetailsThemeController detailsThemeController;
     private ArrayList<DetailsTheme> detailsList;
     private RecyclerView rcl_detail_theme;
+    private Button btn_quiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class DetailHomeActivity2 extends AppCompatActivity {
         //get view
         this.rcl_detail_theme = findViewById(R.id.rcl_detail_theme);
         this.lbl_titre = findViewById(R.id.lbl_titre);
+        this.btn_quiz = findViewById(R.id.btn_quiz);
 
         //recuperation de la position de la liste
         Bundle extras = getIntent().getExtras();
@@ -51,6 +57,7 @@ public class DetailHomeActivity2 extends AppCompatActivity {
         }
         chosed_theme = theme.get(position); //objet recuperer
         String theme_text = chosed_theme.get("theme");
+        String id_theme = chosed_theme.get("idtheme");
 
         //setDuText lbl_titre
         this.lbl_titre.setText(theme_text);
@@ -67,6 +74,15 @@ public class DetailHomeActivity2 extends AppCompatActivity {
         rcl_detail_theme.setItemAnimator(new DefaultItemAnimator());
         rcl_detail_theme.setAdapter(adapter);
 
+        //pass to quiz
+        btn_quiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailHomeActivity2.this, QuizActivity.class);
+                intent.putExtra("idTheme", id_theme);
+                startActivity(intent);
+            }
+        });
 
     }
 }

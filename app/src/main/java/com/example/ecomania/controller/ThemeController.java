@@ -29,21 +29,22 @@ public class ThemeController {
     }
 
     public ArrayList<HashMap<String, String>> makeThemeTest(){
-
-
-        HashMap<String,String> map = new HashMap<String,String>();
         themes = new ArrayList<HashMap<String, String>>();
 
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("idtheme", "1");
         map.put("theme", "ecologie");
         map.put("description", "test ecologie");
         themes.add(map);
 
         HashMap<String,String> map2 = new HashMap<String,String>();
+        map.put("idtheme", "2");
         map2.put("theme", "tri");
         map2.put("description", "test tri");
         themes.add(map2);
 
         HashMap<String,String> map3 = new HashMap<String,String>();
+        map.put("idtheme", "3");
         map3.put("theme", "eco geste");
         map3.put("description", "test eco geste");
         themes.add(map3);
