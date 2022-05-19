@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -68,9 +69,12 @@ public class DetailThemeItemAdapter extends RecyclerView.Adapter<DetailThemeItem
 
         //affichage video
         String video_url = detailsThemeArrayList.get(position).getVideo();
-        holder.video.setVideoPath(video_url);
-        holder.video.start();
-
+        if(video_url.compareToIgnoreCase("null")!=0 && video_url!=null && video_url != ""){
+            holder.video.setVideoPath(video_url);
+            holder.video.start();
+        }else{
+            holder.video.setVisibility(RelativeLayout.GONE);
+        }
     }
 
     @Override
