@@ -7,16 +7,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.ecomania.R;
 import com.example.ecomania.adapter.DetailThemeItemAdapter;
 import com.example.ecomania.controller.DetailsThemeController;
 import com.example.ecomania.controller.ThemeController;
 import com.example.ecomania.model.DetailsTheme;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,9 +43,9 @@ public class DetailHomeActivity2 extends AppCompatActivity {
     private ArrayList<HashMap<String, String>> theme;
     private HashMap<String,String> chosed_theme;
     private DetailsThemeController detailsThemeController;
-    private ArrayList<DetailsTheme> detailsList;
     private RecyclerView rcl_detail_theme;
     private Button btn_quiz;
+    private String url = "https://kidsecolonode.herokuapp.com/theme/details?idtheme=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +76,55 @@ public class DetailHomeActivity2 extends AppCompatActivity {
 
         //initialization liste to item
         detailsThemeController = detailsThemeController.getInstance();
-        detailsList = new ArrayList<DetailsTheme>();
-        detailsList = detailsThemeController.getDetail_themes();
 
-        //adapter recycler view
-        DetailThemeItemAdapter adapter = new DetailThemeItemAdapter(detailsList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        rcl_detail_theme.setLayoutManager(layoutManager);
-        rcl_detail_theme.setItemAnimator(new DefaultItemAnimator());
-        rcl_detail_theme.setAdapter(adapter);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url+id_theme, null,
+                new Response.Listener<JSONObject>(){
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("error restapi get", response.toString());
+
+                        ArrayList<DetailsTheme> detailsList = new ArrayList<DetailsTheme>();
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("data");
+                            JSONObject item = new JSONObject();
+
+                            for (int i=0; i < jsonArray.length(); i++){
+                                item = jsonArray.getJSONObject(i);
+                                DetailsTheme tmpdetail = new DetailsTheme(
+                                        item.getString("idtheme"),
+                                        item.getString("titre"),
+                                        item.getString("desce"),
+                                        item.getString("img"),
+                                        item.getString("video")
+                                );
+                                detailsList.add(tmpdetail);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        //adapter recycler view
+                        DetailThemeItemAdapter adapter = new DetailThemeItemAdapter(detailsList);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                        rcl_detail_theme.setLayoutManager(layoutManager);
+                        rcl_detail_theme.setItemAnimator(new DefaultItemAnimator());
+
+                        rcl_detail_theme.setAdapter(adapter);
+
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error restapi get", error.toString());
+                    }
+                }
+        );
+        requestQueue.add(objectRequest);
+
+        //
 
         //pass to quiz
         btn_quiz.setOnClickListener(new View.OnClickListener() {

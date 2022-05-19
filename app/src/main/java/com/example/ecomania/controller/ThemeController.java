@@ -56,4 +56,8 @@ public class ThemeController {
         return themes;
     }
 
+    public void setTheme(ArrayList<HashMap<String, String>> themes){
+        this.themes = themes;
+    }
+
 }

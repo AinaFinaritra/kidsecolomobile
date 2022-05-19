@@ -8,6 +8,7 @@ public class DetailsThemeController {
 
     private static DetailsThemeController instance = null;
     private DetailsTheme detailTheme;
+    private ArrayList<DetailsTheme> detailsList;
 
     private DetailsThemeController(){
         super();
@@ -25,8 +26,11 @@ public class DetailsThemeController {
     }
 
     public ArrayList<DetailsTheme> getDetail_themes(){
-        detailTheme = new DetailsTheme();
-        return detailTheme.getStaticData();
+        return this.detailsList;
+    }
+
+    public void setDetailsList(ArrayList<DetailsTheme> detailsList) {
+        this.detailsList = detailsList;
     }
 
 }

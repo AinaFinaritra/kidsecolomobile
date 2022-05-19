@@ -50,7 +50,7 @@ public class DetailsTheme {
     }
 
     //data static
-    public ArrayList<DetailsTheme> getStaticData(){
+    /*public ArrayList<DetailsTheme> getStaticData(){
         ArrayList<DetailsTheme> result = new ArrayList<DetailsTheme>();
 
         DetailsTheme data1 = new DetailsTheme("1", "transformation ordure", "bla bla bla ", "https://www.e-sakafo.mg/assets/front/images/bg-login.jpg", "https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1");
@@ -63,5 +63,5 @@ public class DetailsTheme {
         result.add(data4);
 
         return result;
-    }
+    }*/
 }

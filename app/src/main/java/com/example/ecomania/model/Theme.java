@@ -39,7 +39,7 @@ public class Theme {
     }
 
     //avoir theme RESTFUL
-    public ArrayList<HashMap<String, String>> getThemes(Context context){
+    /*public ArrayList<HashMap<String, String>> getThemes(Context context){
 
         ArrayList<HashMap<String,String>> themes = new ArrayList<HashMap<String,String>>();
         HashMap<String,String> map = new HashMap<String,String>();
@@ -51,6 +51,6 @@ public class Theme {
         String test = "";
 
         return themes;
-    }
+    }*/
 
 }
