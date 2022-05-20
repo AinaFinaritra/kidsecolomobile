@@ -1,11 +1,13 @@
 package com.example.ecomania.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +30,15 @@ public class ScoreFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //begin logout
-        /*SharedPreferences pref = this.getContext().getSharedPreferences("username", Context.MODE_PRIVATE);
-        pref.edit().clear().commit();
-        String username = pref.getString("username", "n/a");
-        Log.e("username? ", username);*/
-        //end logout
+
+        //controle de l'existance de persistance
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ScoreFragment.this.getContext());
+        String user_id = pref.getString("user_id", null);
+        if(user_id == null){
+            Intent intent = new Intent(ScoreFragment.this.getContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+
         this.scoreparthemeController = scoreparthemeController.getInstance();
 
         // Inflate the layout for this fragment

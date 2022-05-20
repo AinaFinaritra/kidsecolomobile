@@ -2,7 +2,11 @@ package com.example.ecomania.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,24 +27,37 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
 
-        /*
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor edit = pref.edit();
-        edit.putString("username", "ainaaa");
-        edit.putString("user_id", "756");
-        edit.commit();
-        String username = pref.getString("username", null);
-        Log.e("(SettingFragment) username? ", username);
-        */
-
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (usernameEditText.getText().length() > 0 && passwordEditText.getText().length() > 0) {
-                    String toastMessage = "Username: " + usernameEditText.getText().toString() + ", Password: " + passwordEditText.getText().toString();
-                    Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                    //login post de fy
+
+                    //stockage dans la persistance
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putString("username", usernameEditText.getText().toString());
+                    edit.putString("user_id", passwordEditText.getText().toString());
+                    edit.commit();
+                    String username = pref.getString("user_id", null);
+                    Log.e("(LoginActivity) user_id? ", username);
+
+                    Bundle extras = getIntent().getExtras();
+                    //si le login vient avant acces au quiz
+                    if(extras != null){
+                        String idTheme = extras.getString("idTheme");
+                        Intent intent = new Intent(LoginActivity.this, QuizActivity.class);
+                        intent.putExtra("idTheme", idTheme);
+                        startActivity(intent);
+                    }
+                    //si c un login qui vient du setting
+                    else{
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                    }
+
                 } else {
-                    String toastMessage = "Username or Password are not populated";
+                    String toastMessage = "Champs obligatoires";
                     Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
                 }
             }

@@ -17,22 +17,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //begin presistant login
 
+        //begin check presistant
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String username = pref.getString("user_id", "null");
         Log.e("(MainActivity) user_id? ", username);
-
-        //simule login
-        SharedPreferences.Editor edit = pref.edit();
-        edit.putString("username", "ainaaa");
-        edit.putString("user_id", "756");
-        edit.commit();
-        String user_id = pref.getString("user_id", "null");
-        Log.e("(HomeActivity) user_id? ", user_id);
-        //end simule login
-
-        //end persistant login
+        //end check persistant
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
