@@ -24,15 +24,6 @@ public class HomeActivity extends AppCompatActivity {
     private ThemeController themeController;
 
     private void init(){
-        //begin presistant login
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor edit = pref.edit();
-        edit.putString("username", "ainaaa");
-        edit.putString("user_id", "756");
-        edit.commit();
-        String username = pref.getString("username", "n/a");
-        Log.e("username? ", username);
-        //end persistant login
     }
 
     @Override

@@ -3,13 +3,117 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SettingFragment">
+    tools:context=".view.SettingFragment"
+    android:padding="40dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="setting fragement"
-        android:layout_centerInParent="true"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lable_InfoPerso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mon Profile"
+            android:textSize="30dp"
+            android:textColor="@color/black"
+            android:layout_above="@id/input_login"
+            android:layout_marginBottom="10dp"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nom :"
+                android:textColor="@color/black"
+                android:layout_above="@id/input_login"
+                />
+
+            <TextView
+                android:id="@+id/nom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aina"
+                android:textColor="@color/teal_700"
+                android:layout_above="@id/input_login"
+                android:layout_marginLeft="10dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prenom :"
+                android:textColor="@color/black"
+                android:layout_above="@id/input_login"
+                />
+
+            <TextView
+                android:id="@+id/prenom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finaritra"
+                android:textColor="@color/teal_700"
+                android:layout_above="@id/input_login"
+                android:layout_marginLeft="10dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pseudo :"
+                android:textColor="@color/black"
+                android:layout_above="@id/input_login"
+                />
+
+            <TextView
+                android:id="@+id/pseudo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finaritra"
+                android:textColor="@color/teal_700"
+                android:layout_above="@id/input_login"
+                android:layout_marginLeft="10dp"
+                />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/design_default_color_error"
+            android:text="Se deconnecter"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
 </RelativeLayout>

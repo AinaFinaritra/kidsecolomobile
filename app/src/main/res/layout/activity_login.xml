@@ -1,30 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:padding="40dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.LoginActivity">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="203dp"
+        app:srcCompat="@drawable/ic_logo"
+        android:layout_above="@id/lable_connexion"/>
+
+    <TextView
+        android:id="@+id/lable_connexion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connexion "
+        android:layout_centerHorizontal="true"
+        android:textSize="35dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_above="@id/input_login"
+        android:layout_marginBottom="20dp"
+        />
+
     <LinearLayout
+        android:id="@+id/input_login"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints"
+        android:layout_centerInParent="true"
+        >
 
         <EditText
-            android:id="@+id/activity_login_usernameEditText"
+            android:id="@+id/login_usernameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:text="pseudo" />
 
         <EditText
-            android:id="@+id/activity_main_passwordEditText"
+            android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:text="mot de passe"
+            android:inputType="numberPassword" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/input_login"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:text="Se connecter"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_inscription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginButton"
+        android:backgroundTint="@color/white"
+        android:text="Je n'ai pas de compte"
+        android:textColor="@color/design_default_color_primary"
+    />
+
+</RelativeLayout>

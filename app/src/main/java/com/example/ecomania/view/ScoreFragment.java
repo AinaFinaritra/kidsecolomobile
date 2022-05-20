@@ -29,10 +29,10 @@ public class ScoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //begin logout
-        SharedPreferences pref = this.getContext().getSharedPreferences("username", Context.MODE_PRIVATE);
+        /*SharedPreferences pref = this.getContext().getSharedPreferences("username", Context.MODE_PRIVATE);
         pref.edit().clear().commit();
         String username = pref.getString("username", "n/a");
-        Log.e("username? ", username);
+        Log.e("username? ", username);*/
         //end logout
         this.scoreparthemeController = scoreparthemeController.getInstance();
 

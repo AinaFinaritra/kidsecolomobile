@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -77,6 +79,7 @@ public class DetailHomeActivity2 extends AppCompatActivity {
         //initialization liste to item
         detailsThemeController = detailsThemeController.getInstance();
 
+        //RESTAPI get detail theme by id
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url+id_theme, null,
                 new Response.Listener<JSONObject>(){
@@ -130,9 +133,17 @@ public class DetailHomeActivity2 extends AppCompatActivity {
         btn_quiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailHomeActivity2.this, QuizActivity.class);
-                intent.putExtra("idTheme", id_theme);
-                startActivity(intent);
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(DetailHomeActivity2.this);
+                String user_id = pref.getString("user_id", null);
+                if(user_id != null){
+                    Intent intent = new Intent(DetailHomeActivity2.this, QuizActivity.class);
+                    intent.putExtra("idTheme", id_theme);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(DetailHomeActivity2.this, LoginActivity.class);
+                    intent.putExtra("idTheme", id_theme);
+                    startActivity(intent);
+                }
             }
         });
 

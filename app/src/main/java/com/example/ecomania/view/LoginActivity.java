@@ -19,9 +19,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        usernameEditText = findViewById(R.id.activity_login_usernameEditText);
-        passwordEditText = findViewById(R.id.activity_main_passwordEditText);
-        //loginButton = findViewById(R.id.activity_main_loginButton);
+        usernameEditText = findViewById(R.id.login_usernameEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
+        loginButton = findViewById(R.id.loginButton);
+
+        /*
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("username", "ainaaa");
+        edit.putString("user_id", "756");
+        edit.commit();
+        String username = pref.getString("username", null);
+        Log.e("(SettingFragment) username? ", username);
+        */
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

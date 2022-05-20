@@ -45,40 +45,7 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         liste_theme = (ListView) view.findViewById(R.id.liste_theme);
 
-        /*
-
-        //dynamique test
-        Theme themeModel = new Theme();
-        themeModel.getThemes(view.getContext());
-
-        // static data
-        this.themeController.makeThemeTest();
-        ArrayList<HashMap<String, String>> theme = new ArrayList<HashMap<String,String>>();
-        theme = this.themeController.getThemeTest();
-        // static data end
-
-
-        // affichage de la liste
-        SimpleAdapter adapter = new SimpleAdapter(view.getContext(), theme, R.layout.theme_item,
-                new String[]{"theme", "description"},
-                new int[]{R.id.theme, R.id.description}
-        );
-        liste_theme.setAdapter(adapter);
-        // affichage de la liste end
-
-        // click sur liste
-        liste_theme.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(view.getContext().getApplicationContext(), DetailHomeActivity2.class);
-                intent.putExtra("position", i);
-                startActivity(intent);
-            }
-        });
-        // click sur liste end
-
-         */
-
+        //RESTAPI get theme
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>(){

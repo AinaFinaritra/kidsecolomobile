@@ -38,19 +38,4 @@ public class Theme {
         return etat;
     }
 
-    //avoir theme RESTFUL
-    /*public ArrayList<HashMap<String, String>> getThemes(Context context){
-
-        ArrayList<HashMap<String,String>> themes = new ArrayList<HashMap<String,String>>();
-        HashMap<String,String> map = new HashMap<String,String>();
-
-        RestAction api = new RestAction();
-        api.getMethod("https://kidsecolonode.herokuapp.com/theme/all", context);
-        //Log.e("res? ", api.res);
-
-        String test = "";
-
-        return themes;
-    }*/
-
 }

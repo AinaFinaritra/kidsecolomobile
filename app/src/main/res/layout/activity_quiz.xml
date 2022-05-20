@@ -34,8 +34,8 @@
         android:id="@+id/response"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/reponse1"
@@ -44,8 +44,7 @@
             android:layout_margin="5dp"
             android:backgroundTint="@color/white"
             android:text="reponse 1"
-            android:textColor="@color/black"
-            />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/reponse2"
@@ -54,8 +53,7 @@
             android:layout_margin="5dp"
             android:backgroundTint="@color/white"
             android:text="reponse 2"
-            android:textColor="@color/black"
-            />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/reponse3"
@@ -64,8 +62,7 @@
             android:layout_margin="5dp"
             android:backgroundTint="@color/white"
             android:text="reponse 3"
-            android:textColor="@color/black"
-            />
+            android:textColor="@color/black" />
 
 
     </LinearLayout>
@@ -74,11 +71,10 @@
         android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/design_default_color_primary"
-        android:text="submit"
-        android:textColor="@color/white"
         android:layout_below="@id/response"
         android:layout_marginTop="40dp"
-        />
+        android:backgroundTint="@color/design_default_color_primary"
+        android:text="submit"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
