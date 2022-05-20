@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String username = pref.getString("user_id", "null");
         Log.e("(MainActivity) user_id? ", username);
+        String id_niveau = pref.getString("idNiveau", "null");
+        Log.e("(MainActivity) idNiveau? ", id_niveau);
         //end check persistant
 
         super.onCreate(savedInstanceState);

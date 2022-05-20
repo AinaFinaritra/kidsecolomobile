@@ -12,10 +12,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.ecomania.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SettingFragment extends Fragment {
 
@@ -24,6 +31,11 @@ public class SettingFragment extends Fragment {
     Button loginButton;
     LinearLayout info_user;
     LinearLayout setting_connexion;
+    Spinner spn_niveau;
+    ArrayList<HashMap<String, String>> list_niveau;
+    ArrayAdapter<String> arrayAdapter_list_niveau;
+    TextView niveau_selected;
+    int check = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,9 +47,12 @@ public class SettingFragment extends Fragment {
         loginButton = view.findViewById(R.id.loginButton);
         info_user = view.findViewById(R.id.info_user);
         setting_connexion = view.findViewById(R.id.setting_connexion);
+        spn_niveau = view.findViewById(R.id.spn_niveau);
+        niveau_selected = view.findViewById(R.id.niveau_selected);
 
-        //controlle de l'affichage
+        //controlle de l'affichage de la connexion
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(SettingFragment.this.getContext());
+
         String user_id = pref.getString("user_id", null);
         if(user_id != null){
             info_user.setVisibility(View.VISIBLE);
@@ -45,6 +60,13 @@ public class SettingFragment extends Fragment {
         }else{
             info_user.setVisibility(View.INVISIBLE);
             setting_connexion.setVisibility(View.VISIBLE);
+        }
+
+        String libelle_niveau = pref.getString("libelleNiveau", null);
+        if(libelle_niveau != null){
+            niveau_selected.setText(libelle_niveau);
+        }else{
+            niveau_selected.setText("Aucun niveau choisi");
         }
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +92,58 @@ public class SettingFragment extends Fragment {
             }
         });
 
+        //changement de niveau
+        list_niveau = new ArrayList<HashMap<String, String>>();
+        HashMap<String, String> niveau1 = new HashMap<String, String>();
+        niveau1.put("id_niveau", "1");
+        niveau1.put("libelle", "oeufs");
+        list_niveau.add(niveau1);
+        HashMap<String, String> niveau2 = new HashMap<String, String>();
+        niveau2.put("id_niveau", "2");
+        niveau2.put("libelle", "poussin");
+        list_niveau.add(niveau2);
+        HashMap<String, String> niveau3 = new HashMap<String, String>();
+        niveau3.put("id_niveau", "3");
+        niveau3.put("libelle", "coque");
+        list_niveau.add(niveau3);
+
+        //adapter la liste sur le front
+        ArrayList<String> label = niveauTolabel(list_niveau);
+        arrayAdapter_list_niveau = new ArrayAdapter<>(SettingFragment.this.getContext().getApplicationContext(),
+                android.R.layout.simple_spinner_item, label);
+        spn_niveau.setAdapter(arrayAdapter_list_niveau);
+
+        //evenement de choix niveau
+        spn_niveau.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(++check > 1){
+                    HashMap<String, String> chosed = list_niveau.get(i);
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(SettingFragment.this.getContext());
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putString("libelleNiveau", chosed.get("libelle"));
+                    edit.putString("idNiveau", chosed.get("id_niveau"));
+                    edit.commit();
+                    niveau_selected.setText(chosed.get("libelle"));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         return view;
     }
+
+    private ArrayList<String> niveauTolabel(ArrayList<HashMap<String, String>> WSResult){
+        ArrayList<String> result = new ArrayList<String>();
+        for(int i=0; i<WSResult.size(); i++){
+            String tmp = WSResult.get(i).get("libelle");
+            result.add(tmp);
+        }
+        return result;
+    }
+
 }

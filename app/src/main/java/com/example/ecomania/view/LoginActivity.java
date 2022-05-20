@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
                     edit.putString("username", usernameEditText.getText().toString());
                     edit.putString("user_id", passwordEditText.getText().toString());
                     edit.commit();
-                    String username = pref.getString("user_id", null);
+                    String username = pref.getString("user_id", "null");
                     Log.e("(LoginActivity) user_id? ", username);
 
                     Bundle extras = getIntent().getExtras();
