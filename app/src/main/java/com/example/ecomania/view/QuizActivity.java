@@ -153,7 +153,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             total_question.setText("Total questions : "+total_questions);
             if(total_questions == 0){
                 firstInteraction = 0;
-                question.setText("Aucune question trouver !");
+                question.setText("Aucune question trouvée!");
             }else{
 
                 if(current_question_index == total_questions){
