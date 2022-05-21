@@ -27,6 +27,7 @@ import com.example.ecomania.adapter.DetailThemeItemAdapter;
 import com.example.ecomania.controller.DetailsThemeController;
 import com.example.ecomania.controller.ThemeController;
 import com.example.ecomania.model.DetailsTheme;
+import com.example.ecomania.utils.LoadingDialogue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,11 +50,17 @@ public class DetailHomeActivity2 extends AppCompatActivity {
     private Button btn_quiz;
     private String url = "https://kidsecolonode.herokuapp.com/theme/details?idtheme=";
 
+    LoadingDialogue loadingDialogue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_home2);
         getSupportActionBar().hide();
+
+        //loading
+        loadingDialogue = new LoadingDialogue(DetailHomeActivity2.this);
+        loadingDialogue.startLoadingDialog();
 
         //data theme
         this.themeController = themeController.getInstance();
@@ -104,6 +111,8 @@ public class DetailHomeActivity2 extends AppCompatActivity {
                                 detailsList.add(tmpdetail);
                             }
 
+                            loadingDialogue.dismissLoadingDialog();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -122,6 +131,7 @@ public class DetailHomeActivity2 extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("error restapi get", error.toString());
+                        loadingDialogue.dismissLoadingDialog();
                     }
                 }
         );

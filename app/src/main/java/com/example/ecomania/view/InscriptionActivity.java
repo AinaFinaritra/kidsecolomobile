@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ecomania.R;
 import com.example.ecomania.model.Joueur;
 import com.example.ecomania.utils.ApiInterface;
+import com.example.ecomania.utils.LoadingDialogue;
 import com.example.ecomania.utils.RetrofitClient;
 
 import retrofit2.Call;
@@ -26,7 +27,8 @@ public class InscriptionActivity extends AppCompatActivity {
     private EditText inscription_passwordEditText;
     private EditText inscription_confirm_passwordEditText;
     private Button inscriptionButton;
-    private int success = 0;
+    private int success;
+    private LoadingDialogue loadingDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +65,6 @@ public class InscriptionActivity extends AppCompatActivity {
                         //inscription WS de FY
                         inscription(inscription_Name, inscription_FirstName, inscription_pseudo, inscription_password);
                         //fin inscription
-
-                        String toastMessage = "Entrer le pseudo et le mots de passe";
-                        Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
-
-                        Intent intent = new Intent(InscriptionActivity.this, LoginActivity.class);
-                        startActivity(intent);
-
                     }else{
                         String toastMessage = "Erreur confirmation mots de passe";
                         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
@@ -85,24 +80,38 @@ public class InscriptionActivity extends AppCompatActivity {
 
     }
     void inscription(String nom, String prenoms, String pseudo, String mdp) {
+        //loading
+        loadingDialogue = new LoadingDialogue(this);
+        loadingDialogue.startLoadingDialog();
+
         ApiInterface apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
         Call<Joueur> call = apiInterface.inscription(nom, prenoms, pseudo, mdp);
         call.enqueue(new Callback<Joueur>() {
             @Override
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 //JSONArray the_json_array = response.body().getData().;
-                if(response.body().isError() == true){
+                if(response.body().isError() == false){
                     success = 1;
                 }else{
                     String toastMessage = "Pseudo existant";
                     Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
                     success = 0;
                 }
+                loadingDialogue.dismissLoadingDialog();
+
+                if(success == 1){
+                    String toastMessage = "Entrer le pseudo et le mots de passe";
+                    Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(InscriptionActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
 
             @Override
             public void onFailure(Call<Joueur> call, Throwable t) {
                 Log.e("ERROR insc ", t.getCause().toString());
+                loadingDialogue.dismissLoadingDialog();
             }
         });
     }

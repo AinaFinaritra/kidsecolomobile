@@ -17,6 +17,7 @@ import com.example.ecomania.R;
 import com.example.ecomania.model.Joueur;
 import com.example.ecomania.model.JoueurModel;
 import com.example.ecomania.utils.ApiInterface;
+import com.example.ecomania.utils.LoadingDialogue;
 import com.example.ecomania.utils.RetrofitClient;
 
 import retrofit2.Call;
@@ -30,7 +31,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private Button btn_inscription;
     private ProgressBar loadingPB;
-    private int login_success = 0;
+    private int login_success;
+
+    LoadingDialogue loadingDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +57,6 @@ public class LoginActivity extends AppCompatActivity {
                     login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
                     //fin login
 
-                    if(login_success == 1){
-                        Bundle extras = getIntent().getExtras();
-                        //si le login vient avant acces au quiz
-                        if(extras != null){
-                            String idTheme = extras.getString("idTheme");
-                            Intent intent = new Intent(LoginActivity.this, QuizActivity.class);
-                            intent.putExtra("idTheme", idTheme);
-                            startActivity(intent);
-                        }
-                        //si c un login qui vient du setting
-                        else{
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-
                 } else {
                     String toastMessage = "Champs obligatoires";
                     Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
@@ -88,6 +75,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void login(String pseudo, String mdp) {
+        //loading
+        loadingDialogue = new LoadingDialogue(this);
+        loadingDialogue.startLoadingDialog();
+
         ApiInterface apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
         Call<Joueur> call = apiInterface.loginJoueur(pseudo, mdp);
         call.enqueue(new Callback<Joueur>() {
@@ -114,10 +105,32 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
                     login_success = 0;
                 }
+                //loading
+                loadingDialogue.dismissLoadingDialog();
+
+                if(login_success == 1){
+                    Bundle extras = getIntent().getExtras();
+                    //si le login vient avant acces au quiz
+                    if(extras != null){
+                        String idTheme = extras.getString("idTheme");
+                        Intent intent = new Intent(LoginActivity.this, QuizActivity.class);
+                        intent.putExtra("idTheme", idTheme);
+                        startActivity(intent);
+                    }
+                    //si c un login qui vient du setting
+                    else{
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
             }
 
             @Override
             public void onFailure(Call<Joueur> call, Throwable t) {
+
+                loadingDialogue.dismissLoadingDialog();
+
                 Log.e("Misy err login ", t.getMessage());
                 Log.e("err ", t.getCause().toString());
             }

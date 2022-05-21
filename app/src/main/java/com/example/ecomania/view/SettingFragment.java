@@ -29,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ecomania.R;
 import com.example.ecomania.utils.Constante;
+import com.example.ecomania.utils.LoadingDialogue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,11 +57,16 @@ public class SettingFragment extends Fragment {
     TextView prenomJoueur;
     TextView pseudoJoueur;
 
+    LoadingDialogue loadingDialogue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_setting, container, false);
+
+        //loading
+        loadingDialogue = new LoadingDialogue(this.getActivity());
+        loadingDialogue.startLoadingDialog();
 
         //init parameter
         init();
@@ -122,12 +128,15 @@ public class SettingFragment extends Fragment {
                         arrayAdapter_list_niveau = new ArrayAdapter<>(SettingFragment.this.getContext().getApplicationContext(),
                                 android.R.layout.simple_spinner_item, label);
                         spn_niveau.setAdapter(arrayAdapter_list_niveau);
+
+                        loadingDialogue.dismissLoadingDialog();
                     }
                 },
                 new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("error restapi get", error.toString());
+                        loadingDialogue.dismissLoadingDialog();
                     }
                 }
         );

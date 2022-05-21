@@ -26,6 +26,7 @@ import com.example.ecomania.R;
 import com.example.ecomania.controller.ScoreparthemeController;
 import com.example.ecomania.controller.ThemeController;
 import com.example.ecomania.utils.Constante;
+import com.example.ecomania.utils.LoadingDialogue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +41,7 @@ public class ScoreFragment extends Fragment {
     ListView lst_score;
     String url = Constante.url+"/joueur/score?id=";
     TextView message;
+    LoadingDialogue loadingDialogue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class ScoreFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_score, container, false);
         lst_score = (ListView) view.findViewById(R.id.lst_score);
         message = view.findViewById(R.id.message);
+
+        loadingDialogue = new LoadingDialogue(this.getActivity());
+        loadingDialogue.startLoadingDialog();
 
         //controle de l'existance de persistance
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ScoreFragment.this.getContext());
@@ -81,6 +86,7 @@ public class ScoreFragment extends Fragment {
                                         map.put("pts", item.getString("score"));
                                         score.add(map);
                                     }
+                                    loadingDialogue.dismissLoadingDialog();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -98,6 +104,7 @@ public class ScoreFragment extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.e("error restapi get", error.toString());
+                            loadingDialogue.dismissLoadingDialog();
                         }
                     }
             );

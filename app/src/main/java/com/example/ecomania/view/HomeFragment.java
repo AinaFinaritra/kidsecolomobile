@@ -24,6 +24,7 @@ import com.example.ecomania.R;
 import com.example.ecomania.controller.ThemeController;
 import com.example.ecomania.model.Theme;
 import com.example.ecomania.utils.Constante;
+import com.example.ecomania.utils.LoadingDialogue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,9 +42,14 @@ public class HomeFragment extends Fragment {
     SimpleAdapter adapter;
     SearchView search_bar;
 
+    //Loading
+    LoadingDialogue loadingDialogue;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.themeController = ThemeController.getInstance();
+        loadingDialogue = new LoadingDialogue(this.getActivity());
+        loadingDialogue.startLoadingDialog();
 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -77,7 +83,6 @@ public class HomeFragment extends Fragment {
                         }
 
                         themeController.setTheme(theme);
-
                         // affichage de la liste
                         adapter = new SimpleAdapter(view.getContext(), theme, R.layout.theme_item,
                                 new String[]{"theme", "description"},
@@ -86,12 +91,16 @@ public class HomeFragment extends Fragment {
                         liste_theme.setAdapter(adapter);
                         // affichage de la liste end
 
+                        //terminate the loading
+                        loadingDialogue.dismissLoadingDialog();
+
                     }
                 },
                 new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("error restapi get", error.toString());
+                        loadingDialogue.dismissLoadingDialog();
                     }
                 }
         );
