@@ -1,15 +1,23 @@
 package com.example.ecomania.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.ecomania.R;
+import com.example.ecomania.model.Joueur;
+import com.example.ecomania.utils.ApiInterface;
+import com.example.ecomania.utils.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class InscriptionActivity extends AppCompatActivity {
     private EditText inscription_NameEditText;
@@ -18,9 +26,11 @@ public class InscriptionActivity extends AppCompatActivity {
     private EditText inscription_passwordEditText;
     private EditText inscription_confirm_passwordEditText;
     private Button inscriptionButton;
+    private int success = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        success = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
 
@@ -51,6 +61,8 @@ public class InscriptionActivity extends AppCompatActivity {
 
                     if(inscription_password.compareToIgnoreCase(inscription_confirm_password) == 0){
                         //inscription WS de FY
+                        inscription(inscription_Name, inscription_FirstName, inscription_pseudo, inscription_password);
+                        //fin inscription
 
                         String toastMessage = "Entrer le pseudo et le mots de passe";
                         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
@@ -71,5 +83,27 @@ public class InscriptionActivity extends AppCompatActivity {
         });
 
 
+    }
+    void inscription(String nom, String prenoms, String pseudo, String mdp) {
+        ApiInterface apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
+        Call<Joueur> call = apiInterface.inscription(nom, prenoms, pseudo, mdp);
+        call.enqueue(new Callback<Joueur>() {
+            @Override
+            public void onResponse(Call<Joueur> call, Response<Joueur> response) {
+                //JSONArray the_json_array = response.body().getData().;
+                if(response.body().isError() == true){
+                    success = 1;
+                }else{
+                    String toastMessage = "Pseudo existant";
+                    Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                    success = 0;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Joueur> call, Throwable t) {
+                Log.e("ERROR insc ", t.getCause().toString());
+            }
+        });
     }
 }
