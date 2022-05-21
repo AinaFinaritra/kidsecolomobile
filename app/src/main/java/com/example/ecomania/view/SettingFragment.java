@@ -20,10 +20,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.ecomania.R;
+import com.example.ecomania.utils.Constante;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +53,7 @@ public class SettingFragment extends Fragment {
     TextView niveau_selected;
     WebView aPropos;
     int check = 0;
+    String url = Constante.url+"/joueur/niveau";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,37 +61,11 @@ public class SettingFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_setting, container, false);
 
         //init parameter
-        logoutButton = view.findViewById(R.id.logoutButton);
-        loginButton = view.findViewById(R.id.loginButton);
-        info_user = view.findViewById(R.id.info_user);
-        setting_connexion = view.findViewById(R.id.setting_connexion);
-        spn_niveau = view.findViewById(R.id.spn_niveau);
-        niveau_selected = view.findViewById(R.id.niveau_selected);
-        aPropos = view.findViewById(R.id.aPropos);
-
+        init();
         //a propos en html
-        WebSettings webSettings = aPropos.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        aPropos.setWebViewClient(new Callback());
-        aPropos.loadUrl("https://www.futura-sciences.com/planete/definitions/developpement-durable-ecologie-133/");
-
+        loadAproposWeb("https://www.futura-sciences.com/planete/definitions/developpement-durable-ecologie-133/");
         //controlle de l'affichage de la connexion
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(SettingFragment.this.getContext());
-
-        String user_id = pref.getString("user_id", null);
-        if(user_id != null){
-            info_user.setVisibility(View.VISIBLE);
-            setting_connexion.setVisibility(View.INVISIBLE);
-        }else{
-            info_user.setVisibility(View.INVISIBLE);
-            setting_connexion.setVisibility(View.VISIBLE);
-        }
-        String libelle_niveau = pref.getString("libelleNiveau", null);
-        if(libelle_niveau != null){
-            niveau_selected.setText(libelle_niveau);
-        }else{
-            niveau_selected.setText("Aucun niveau choisi");
-        }
+        gererAffichage();
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,26 +89,46 @@ public class SettingFragment extends Fragment {
             }
         });
 
-        //changement de niveau
-        list_niveau = new ArrayList<HashMap<String, String>>();
-        HashMap<String, String> niveau1 = new HashMap<String, String>();
-        niveau1.put("id_niveau", "1");
-        niveau1.put("libelle", "oeufs");
-        list_niveau.add(niveau1);
-        HashMap<String, String> niveau2 = new HashMap<String, String>();
-        niveau2.put("id_niveau", "2");
-        niveau2.put("libelle", "poussin");
-        list_niveau.add(niveau2);
-        HashMap<String, String> niveau3 = new HashMap<String, String>();
-        niveau3.put("id_niveau", "3");
-        niveau3.put("libelle", "coque");
-        list_niveau.add(niveau3);
+        //RESTAPI get niveau
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>(){
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("error restapi get", response.toString());
 
-        //adapter la liste sur le front
-        ArrayList<String> label = niveauTolabel(list_niveau);
-        arrayAdapter_list_niveau = new ArrayAdapter<>(SettingFragment.this.getContext().getApplicationContext(),
-                android.R.layout.simple_spinner_item, label);
-        spn_niveau.setAdapter(arrayAdapter_list_niveau);
+                        list_niveau = new ArrayList<HashMap<String,String>>();
+                        //avoir la liste
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("data");
+                            JSONObject item = new JSONObject();
+                            for (int i=0; i < jsonArray.length(); i++){
+                                item = jsonArray.getJSONObject(i);
+                                HashMap<String, String> niveau = new HashMap<String, String>();
+                                niveau.put("id_niveau", item.getString("id"));
+                                niveau.put("libelle", item.getString("valeur"));
+                                list_niveau.add(niveau);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        //adapter la liste sur le front
+                        ArrayList<String> label = niveauTolabel(list_niveau);
+                        arrayAdapter_list_niveau = new ArrayAdapter<>(SettingFragment.this.getContext().getApplicationContext(),
+                                android.R.layout.simple_spinner_item, label);
+                        spn_niveau.setAdapter(arrayAdapter_list_niveau);
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error restapi get", error.toString());
+                    }
+                }
+        );
+        requestQueue.add(objectRequest);
 
         //evenement de choix niveau
         spn_niveau.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -137,13 +144,11 @@ public class SettingFragment extends Fragment {
                     niveau_selected.setText(chosed.get("libelle"));
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-
         return view;
     }
 
@@ -160,6 +165,41 @@ public class SettingFragment extends Fragment {
         @Override
         public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
             return false;
+        }
+    }
+
+    private void init(){
+        logoutButton = view.findViewById(R.id.logoutButton);
+        loginButton = view.findViewById(R.id.loginButton);
+        info_user = view.findViewById(R.id.info_user);
+        setting_connexion = view.findViewById(R.id.setting_connexion);
+        spn_niveau = view.findViewById(R.id.spn_niveau);
+        niveau_selected = view.findViewById(R.id.niveau_selected);
+        aPropos = view.findViewById(R.id.aPropos);
+    }
+
+    private void loadAproposWeb(String link){
+        WebSettings webSettings = aPropos.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        aPropos.setWebViewClient(new Callback());
+        aPropos.loadUrl(link);
+    }
+
+    private void gererAffichage(){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(SettingFragment.this.getContext());
+        String user_id = pref.getString("user_id", null);
+        if(user_id != null){
+            info_user.setVisibility(View.VISIBLE);
+            setting_connexion.setVisibility(View.INVISIBLE);
+        }else{
+            info_user.setVisibility(View.INVISIBLE);
+            setting_connexion.setVisibility(View.VISIBLE);
+        }
+        String libelle_niveau = pref.getString("libelleNiveau", null);
+        if(libelle_niveau != null){
+            niveau_selected.setText(libelle_niveau);
+        }else{
+            niveau_selected.setText("Aucun niveau choisi");
         }
     }
 }

@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.ecomania.R;
 import com.example.ecomania.controller.ThemeController;
 import com.example.ecomania.model.Theme;
+import com.example.ecomania.utils.Constante;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class HomeFragment extends Fragment {
     View view;
     ListView liste_theme;
     private ThemeController themeController;
-    String url = "https://kidsecolonode.herokuapp.com/theme/all";
+    String url = Constante.url+"/theme/all";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
