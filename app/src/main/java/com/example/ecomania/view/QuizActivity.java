@@ -159,12 +159,14 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             total_questions = questionResponse.question.size();
             total_question.setText("Total questions : "+total_questions);
             if(total_questions == 0){
+
                 if(firstInteraction == 0){
                     question.setText("Choisis une réponse et clique le button 'Suivant' pour lancer le quiz !");
                 }else{
                     question.setText("Aucune question trouvée !");
                     firstInteraction = 0;
                 }
+
             }else{
 
                 if(current_question_index == total_questions){
