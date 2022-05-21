@@ -54,7 +54,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         getSupportActionBar().hide();
+
         questionResponse = QuestionResponse.getInstance();
+        questionResponse.renitialize();
 
         //initialise
         total_question = findViewById(R.id.total_question);
@@ -63,6 +65,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         reponse2 = findViewById(R.id.reponse2);
         reponse3 = findViewById(R.id.reponse3);
         submit = findViewById(R.id.submit);
+
+        question.setText("Choisis une réponse et clique le button 'Suivant' pour lancer le quiz !");
+        reponse1.setText("reponse 1");
+        reponse2.setText("reponse 2");
+        reponse3.setText("reponse 3");
 
         //setting click listner
         reponse1.setOnClickListener(this);
@@ -152,8 +159,12 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             total_questions = questionResponse.question.size();
             total_question.setText("Total questions : "+total_questions);
             if(total_questions == 0){
-                firstInteraction = 0;
-                question.setText("Aucune question trouver !");
+                if(firstInteraction == 0){
+                    question.setText("Choisis une réponse et clique le button 'Suivant' pour lancer le quiz !");
+                }else{
+                    question.setText("Aucune question trouvée !");
+                    firstInteraction = 0;
+                }
             }else{
 
                 if(current_question_index == total_questions){
