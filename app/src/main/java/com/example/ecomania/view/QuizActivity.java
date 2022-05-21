@@ -1,10 +1,5 @@
 package com.example.ecomania.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,17 +20,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ecomania.R;
-import com.example.ecomania.adapter.DetailThemeItemAdapter;
-import com.example.ecomania.model.DetailsTheme;
+import com.example.ecomania.model.Joueur;
 import com.example.ecomania.model.QuestionResponse;
+import com.example.ecomania.utils.ApiInterface;
 import com.example.ecomania.utils.Constante;
+import com.example.ecomania.utils.RetrofitClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -126,6 +124,13 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         if(firstInteraction != 0){
             if(clicked.getId() == R.id.submit){
                 if(selectedAnswer.equals(questionResponse.correctAnswers.get(current_question_index).get("reponse"))){
+                    //insert reponse WS
+                    String idquestion = questionResponse.correctAnswers.get(current_question_index).get("idquestion");
+                    int pts = Integer.parseInt(questionResponse.correctAnswers.get(current_question_index).get("pts"));
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(QuizActivity.this);
+                    String idJoueur = pref.getString("user_id", "null");
+                    insertReponse(idJoueur, idquestion, pts);
+
                     score = score + Integer.parseInt(questionResponse.correctAnswers.get(current_question_index).get("score"));
                 }
                 current_question_index++;
@@ -184,5 +189,22 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(QuizActivity.this, HomeActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    void insertReponse(String idJoueur, String idquestion, int pts){
+        ApiInterface apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
+        Call<Joueur> call = apiInterface.envoyer(idquestion, idJoueur, pts);
+        call.enqueue(new Callback<Joueur>() {
+            @Override
+            public void onResponse(Call<Joueur> call, retrofit2.Response<Joueur> response) {
+                Log.e("Success", "");
+            }
+
+            @Override
+            public void onFailure(Call<Joueur> call, Throwable t) {
+                Log.e("Misy err login ", t.getMessage());
+                Log.e("err ", t.getCause().toString());
+            }
+        });
     }
 }

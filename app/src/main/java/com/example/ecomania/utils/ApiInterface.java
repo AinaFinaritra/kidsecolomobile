@@ -16,4 +16,9 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("https://kidsecolonode.herokuapp.com/joueur/inscription")
     Call<Joueur> inscription(@Field("nom") String nom, @Field("prenoms") String prenoms, @Field("pseudo") String pseudo, @Field("mdp") String mdp);
+
+    @FormUrlEncoded
+    @POST("https://kidsecolonode.herokuapp.com/question/repondre")
+    Call<Joueur> envoyer(@Field("idquestion") String idquestion, @Field("idjoueur") String idjoueur, @Field("pts") int pts);
+
 }

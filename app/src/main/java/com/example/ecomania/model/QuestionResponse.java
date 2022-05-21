@@ -44,6 +44,7 @@ public class QuestionResponse {
                 for(int a = 0; a < responses.length(); a++){
                     HashMap<String, String> one_response = new HashMap<String, String>();
                     one_response.put("idreponse", responses.getJSONObject(a).getString(("id")));
+                    one_response.put("idquestion", responses.getJSONObject(a).getString(("idquestion")));
                     one_response.put("reponse", responses.getJSONObject(a).getString("libelle"));
                     one_response.put("score", ""+responses.getJSONObject(a).getInt("pts"));
                     lst_response.add(one_response);
