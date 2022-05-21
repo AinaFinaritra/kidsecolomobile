@@ -129,8 +129,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                     int pts = Integer.parseInt(questionResponse.correctAnswers.get(current_question_index).get("score"));
                     SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(QuizActivity.this);
                     String idJoueur = pref.getString("user_id", "null");
-                    Log.e("idquestion ==== ", idquestion);
-                    Log.e("score ==== ", ""+pts);
                     insertReponse(idJoueur, idquestion, pts);
 
                     score = score + Integer.parseInt(questionResponse.correctAnswers.get(current_question_index).get("score"));
@@ -177,7 +175,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             }
         }else{
             firstInteraction = 0;
-            question.setText("Choisi une reponse et Clicke le button 'Suivant' pour lancer le quiz !");
+            question.setText("Choisis une réponse et clique le button 'Suivant' pour lancer le quiz !");
         }
     }
 
