@@ -18,6 +18,17 @@
         />
 
     <TextView
+        android:id="@+id/niveau_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/total_question"
+        android:text="Niveau"
+        android:layout_centerHorizontal="true"
+        android:textSize="24dp"
+        android:layout_marginTop="40dp"
+        />
+
+    <TextView
         android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -17,15 +17,19 @@
             android:id="@+id/lbl_titre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            />
 
         <Button
             android:id="@+id/btn_quiz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="QUIZ" />
+            android:text="JOUER AU QUIZ" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="20dp"
             android:id="@+id/rcl_detail_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

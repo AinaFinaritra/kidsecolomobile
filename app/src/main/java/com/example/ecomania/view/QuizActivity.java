@@ -37,6 +37,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView total_question;
     TextView question;
+    TextView niveau_question;
     Button reponse1, reponse2, reponse3;
     Button submit;
     QuestionResponse questionResponse;
@@ -60,6 +61,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
         //initialise
         total_question = findViewById(R.id.total_question);
+        niveau_question = findViewById(R.id.niveau_question);
         question = findViewById(R.id.question);
         reponse1 = findViewById(R.id.reponse1);
         reponse2 = findViewById(R.id.reponse2);
@@ -87,6 +89,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         //get niveau
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(QuizActivity.this);
         String id_niveau = pref.getString("idNiveau", null);
+        niveau_question.setText("Niveau "+pref.getString("libelleNiveau", "inconnu"));
 
         //RESTAPI get question_reponse
         RequestQueue requestQueue = Volley.newRequestQueue(this);
