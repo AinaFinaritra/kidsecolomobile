@@ -72,6 +72,7 @@ public class SettingFragment extends Fragment {
         init();
         //a propos en html
         loadAproposWeb("https://www.futura-sciences.com/planete/definitions/developpement-durable-ecologie-133/");
+        //loadAproposWeb(Constante.url+"/about");
         //controlle de l'affichage de la connexion
         gererAffichage();
 

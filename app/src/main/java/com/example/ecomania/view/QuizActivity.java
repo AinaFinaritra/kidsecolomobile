@@ -24,6 +24,7 @@ import com.example.ecomania.model.QuestionResponse;
 import com.example.ecomania.model.ReponseJoueur;
 import com.example.ecomania.utils.ApiInterface;
 import com.example.ecomania.utils.Constante;
+import com.example.ecomania.utils.LoadingDialogue;
 import com.example.ecomania.utils.RetrofitClient;
 
 import org.json.JSONArray;
@@ -50,11 +51,17 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     String url = Constante.url+"/question/niveau?";
 
+    //Loading
+    LoadingDialogue loadingDialogue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         getSupportActionBar().hide();
+
+        loadingDialogue = new LoadingDialogue(this);
+        loadingDialogue.startLoadingDialog();
 
         questionResponse = QuestionResponse.getInstance();
         questionResponse.renitialize();
@@ -102,6 +109,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                         try {
                             JSONArray jsonArray = response.getJSONArray("data");
                             questionResponse.configureQuestionReponse(jsonArray);
+
+                            loadingDialogue.dismissLoadingDialog();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
