@@ -135,13 +135,25 @@ public class DetailHomeActivity2 extends AppCompatActivity {
             public void onClick(View v) {
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(DetailHomeActivity2.this);
                 String user_id = pref.getString("user_id", null);
-                if(user_id != null){
-                    Intent intent = new Intent(DetailHomeActivity2.this, QuizActivity.class);
-                    intent.putExtra("idTheme", id_theme);
-                    startActivity(intent);
+                String id_niveau = pref.getString("idNiveau", null);
+                if(id_niveau != null){
+                    if(user_id != null){
+                        Intent intent = new Intent(DetailHomeActivity2.this, QuizActivity.class);
+                        intent.putExtra("idTheme", id_theme);
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(DetailHomeActivity2.this, LoginActivity.class);
+                        intent.putExtra("idTheme", id_theme);
+                        startActivity(intent);
+                    }
                 }else{
-                    Intent intent = new Intent(DetailHomeActivity2.this, LoginActivity.class);
-                    intent.putExtra("idTheme", id_theme);
+                    CharSequence text = "Selection niveau obligatoire !";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+
+                    toast.show();
+                    Intent intent = new Intent(DetailHomeActivity2.this, HomeActivity.class);
+                    intent.putExtra("toSetting", "yes");
                     startActivity(intent);
                 }
             }

@@ -38,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
         score_fragment_button = findViewById(R.id.btnScore);
         setting_fragment_button = findViewById(R.id.btnSettings);
 
+
         home_fragment_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +60,18 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        replaceFragment(new HomeFragment());
+        //if no niveau in preferences
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            String toSetting = extras.getString("toSetting");
+            if(toSetting.compareToIgnoreCase("yes") == 0){
+                replaceFragment(new SettingFragment());
+            }else{
+                replaceFragment(new HomeFragment());
+            }
+        }else{
+            replaceFragment(new HomeFragment());
+        }
 
     }
 
