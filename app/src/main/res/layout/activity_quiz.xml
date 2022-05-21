@@ -74,7 +74,7 @@
         android:layout_below="@id/response"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/design_default_color_primary"
-        android:text="submit"
+        android:text="Suivant"
         android:textColor="@color/white" />
 
 </RelativeLayout>

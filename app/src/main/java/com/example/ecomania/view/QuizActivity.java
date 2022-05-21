@@ -1,17 +1,39 @@
 package com.example.ecomania.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.ecomania.R;
+import com.example.ecomania.adapter.DetailThemeItemAdapter;
+import com.example.ecomania.model.DetailsTheme;
 import com.example.ecomania.model.QuestionResponse;
+import com.example.ecomania.utils.Constante;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -19,17 +41,22 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     TextView question;
     Button reponse1, reponse2, reponse3;
     Button submit;
+    QuestionResponse questionResponse;
 
+    int total_questions;
     int score = 0;
-    int total_questions = QuestionResponse.question.length;
     int current_question_index = 0;
+    int firstInteraction = 0;
     String selectedAnswer = "";
+
+    String url = Constante.url+"/question/niveau?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         getSupportActionBar().hide();
+        questionResponse = QuestionResponse.getInstance();
 
         //initialise
         total_question = findViewById(R.id.total_question);
@@ -45,12 +72,48 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         reponse3.setOnClickListener(this);
         submit.setOnClickListener(this);
 
-        total_question.setText("Total questions :"+total_questions);
+        //GetExtra
+        Bundle extras = getIntent().getExtras();
+        String idTheme = "";
+        if(extras != null){
+            idTheme = extras.getString("idTheme");
+        }
+
+        //get niveau
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(QuizActivity.this);
+        String id_niveau = pref.getString("idNiveau", null);
+
+        //RESTAPI get question_reponse
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url+"idniveau="+id_niveau+"&idtheme="+idTheme, null,
+                new Response.Listener<JSONObject>(){
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("error restapi get", response.toString());
+
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("data");
+                            questionResponse.configureQuestionReponse(jsonArray);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error restapi get", error.toString());
+                    }
+                }
+        );
 
         //initialisation de la premier question
         loadNewQuestion();
 
+        requestQueue.add(objectRequest);
     }
+
 
     @Override
     public void onClick(View view) {
@@ -58,39 +121,56 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         reponse1.setBackgroundColor(Color.WHITE);
         reponse2.setBackgroundColor(Color.WHITE);
         reponse3.setBackgroundColor(Color.WHITE);
-
         Button clicked = (Button) view;
 
-        if(clicked.getId() == R.id.submit){
-            if(selectedAnswer.equals(QuestionResponse.correctAnswers[current_question_index])){
-                score ++;
+        if(firstInteraction != 0){
+            if(clicked.getId() == R.id.submit){
+                if(selectedAnswer.equals(questionResponse.correctAnswers.get(current_question_index).get("reponse"))){
+                    score = score + Integer.parseInt(questionResponse.correctAnswers.get(current_question_index).get("score"));
+                }
+                current_question_index++;
+                loadNewQuestion();
+            }else{
+                //choices
+                selectedAnswer = clicked.getText().toString();
+                clicked.setBackgroundColor(Color.MAGENTA);
             }
-            current_question_index++;
-            loadNewQuestion();
         }else{
-            //choices
-            selectedAnswer = clicked.getText().toString();
-            clicked.setBackgroundColor(Color.MAGENTA);
+            firstInteraction = 1;
+            loadNewQuestion();
         }
     }
 
     void loadNewQuestion(){
 
-        if(current_question_index == total_questions){
-            new AlertDialog.Builder(this)
-                    .setTitle("Ton score")
-                    .setMessage("tu as "+score+" points sur "+total_questions)
-                    .setPositiveButton("Refaire le quiz", ((dialogInterface, i) -> restartQuiz()))
-                    .setNeutralButton("revenir au menu principal", ((dialogInterface, i) -> quitQuiz()))
-                    .setCancelable(false)
-                    .show();
-            return;
+        if(questionResponse.question != null){
+            total_questions = questionResponse.question.size();
+            total_question.setText("Total questions : "+total_questions);
+            if(total_questions == 0){
+                firstInteraction = 0;
+                question.setText("Aucune question trouver !");
+            }else{
+
+                if(current_question_index == total_questions){
+                    new AlertDialog.Builder(this)
+                            .setTitle("Ton score")
+                            .setMessage("tu as "+score+" points sur "+total_questions+" question(s)")
+                            .setPositiveButton("Refaire le quiz", ((dialogInterface, i) -> restartQuiz()))
+                            .setNeutralButton("revenir au menu principal", ((dialogInterface, i) -> quitQuiz()))
+                            .setCancelable(false)
+                            .show();
+                    return;
+                }else{
+                    //continue question
+                    question.setText(questionResponse.question.get(current_question_index).get("question"));
+                    reponse1.setText(questionResponse.choices.get(current_question_index).get(0).get("reponse"));
+                    reponse2.setText(questionResponse.choices.get(current_question_index).get(1).get("reponse"));
+                    reponse3.setText(questionResponse.choices.get(current_question_index).get(2).get("reponse"));
+                }
+            }
         }else{
-            //continue question
-            question.setText(QuestionResponse.question[current_question_index]);
-            reponse1.setText(QuestionResponse.choices[current_question_index][0]);
-            reponse2.setText(QuestionResponse.choices[current_question_index][1]);
-            reponse3.setText(QuestionResponse.choices[current_question_index][2]);
+            firstInteraction = 0;
+            question.setText("Choisi une reponse et Clicke le button 'Suivant' pour lancer le quiz !");
         }
     }
 

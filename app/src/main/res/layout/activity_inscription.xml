@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Mot de passe"
-            android:inputType="numberPassword" />
+            android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/inscription_confirm_passwordEditText"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Confirmer mot de passe"
-            android:inputType="numberPassword" />
+            android:inputType="textPassword" />
 
     </LinearLayout>
 
