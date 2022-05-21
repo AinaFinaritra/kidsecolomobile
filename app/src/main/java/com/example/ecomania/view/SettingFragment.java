@@ -9,9 +9,13 @@ import androidx.fragment.app.Fragment;
 
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,6 +39,7 @@ public class SettingFragment extends Fragment {
     ArrayList<HashMap<String, String>> list_niveau;
     ArrayAdapter<String> arrayAdapter_list_niveau;
     TextView niveau_selected;
+    WebView aPropos;
     int check = 0;
 
     @Override
@@ -49,6 +54,13 @@ public class SettingFragment extends Fragment {
         setting_connexion = view.findViewById(R.id.setting_connexion);
         spn_niveau = view.findViewById(R.id.spn_niveau);
         niveau_selected = view.findViewById(R.id.niveau_selected);
+        aPropos = view.findViewById(R.id.aPropos);
+
+        //a propos en html
+        WebSettings webSettings = aPropos.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        aPropos.setWebViewClient(new Callback());
+        aPropos.loadUrl("https://www.futura-sciences.com/planete/definitions/developpement-durable-ecologie-133/");
 
         //controlle de l'affichage de la connexion
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(SettingFragment.this.getContext());
@@ -61,7 +73,6 @@ public class SettingFragment extends Fragment {
             info_user.setVisibility(View.INVISIBLE);
             setting_connexion.setVisibility(View.VISIBLE);
         }
-
         String libelle_niveau = pref.getString("libelleNiveau", null);
         if(libelle_niveau != null){
             niveau_selected.setText(libelle_niveau);
@@ -83,7 +94,6 @@ public class SettingFragment extends Fragment {
                 setting_connexion.setVisibility(View.VISIBLE);
             }
         });
-
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,4 +156,10 @@ public class SettingFragment extends Fragment {
         return result;
     }
 
+    private class Callback extends WebViewClient {
+        @Override
+        public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
+            return false;
+        }
+    }
 }
