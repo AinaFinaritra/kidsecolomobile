@@ -18,14 +18,20 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
+    private Button btn_inscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        getSupportActionBar().hide();
+
+        //initialisation
         usernameEditText = findViewById(R.id.login_usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
+        btn_inscription = findViewById(R.id.btn_inscription);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,5 +68,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btn_inscription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, InscriptionActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

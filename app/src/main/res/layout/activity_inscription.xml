@@ -12,23 +12,23 @@
         android:layout_width="wrap_content"
         android:layout_height="203dp"
         app:srcCompat="@drawable/ic_logo"
-        android:layout_above="@id/lable_connexion"/>
+        android:layout_above="@id/lable_inscription"/>
 
     <TextView
-        android:id="@+id/lable_connexion"
+        android:id="@+id/lable_inscription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Connexion "
+        android:text="inscription"
         android:layout_centerHorizontal="true"
         android:textSize="35dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:layout_above="@id/input_login"
+        android:layout_above="@id/input_inscription"
         android:layout_marginBottom="20dp"
         />
 
     <LinearLayout
-        android:id="@+id/input_login"
+        android:id="@+id/input_inscription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -36,41 +36,71 @@
         android:layout_centerInParent="true"
         >
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Information utilisateur"
+            android:textStyle="bold"
+            />
+
         <EditText
-            android:id="@+id/login_usernameEditText"
+            android:id="@+id/inscription_NameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Nom" />
+
+        <EditText
+            android:id="@+id/inscription_FirstNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Prenom" />
+
+        <EditText
+            android:id="@+id/inscription_usernameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Pseudo" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mots de passe"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            />
+
         <EditText
-            android:id="@+id/passwordEditText"
+            android:id="@+id/inscription_passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Mot de passe"
             android:inputType="numberPassword" />
+
+        <EditText
+            android:id="@+id/inscription_confirm_passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Confirmer mot de passe"
+            android:inputType="numberPassword" />
+
     </LinearLayout>
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/inscriptionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/input_login"
+        android:layout_below="@id/input_inscription"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/design_default_color_primary"
-        android:text="Se connecter"
+        android:text="GO !"
         android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/btn_inscription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/loginButton"
-        android:backgroundTint="@color/white"
-        android:text="Je n'ai pas de compte"
-        android:textColor="@color/design_default_color_primary"
-    />
 
 </RelativeLayout>

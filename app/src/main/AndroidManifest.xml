@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ecomania">
         <activity
+            android:name=".view.InscriptionActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.QuizActivity"
             android:exported="false" />
         <activity
