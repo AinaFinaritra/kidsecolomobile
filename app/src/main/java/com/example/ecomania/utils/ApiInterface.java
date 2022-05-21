@@ -1,6 +1,7 @@
 package com.example.ecomania.utils;
 
 import com.example.ecomania.model.Joueur;
+import com.example.ecomania.model.ReponseJoueur;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -19,6 +20,6 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("https://kidsecolonode.herokuapp.com/question/repondre")
-    Call<Joueur> envoyer(@Field("idquestion") String idquestion, @Field("idjoueur") String idjoueur, @Field("pts") int pts);
+    Call<ReponseJoueur> envoyer(@Field("idquestion") String idquestion, @Field("idjoueur") String idjoueur, @Field("pts") int pts);
 
 }

@@ -20,8 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ecomania.R;
-import com.example.ecomania.model.Joueur;
 import com.example.ecomania.model.QuestionResponse;
+import com.example.ecomania.model.ReponseJoueur;
 import com.example.ecomania.utils.ApiInterface;
 import com.example.ecomania.utils.Constante;
 import com.example.ecomania.utils.RetrofitClient;
@@ -126,9 +126,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 if(selectedAnswer.equals(questionResponse.correctAnswers.get(current_question_index).get("reponse"))){
                     //insert reponse WS
                     String idquestion = questionResponse.correctAnswers.get(current_question_index).get("idquestion");
-                    int pts = Integer.parseInt(questionResponse.correctAnswers.get(current_question_index).get("pts"));
+                    int pts = Integer.parseInt(questionResponse.correctAnswers.get(current_question_index).get("score"));
                     SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(QuizActivity.this);
                     String idJoueur = pref.getString("user_id", "null");
+                    Log.e("idquestion ==== ", idquestion);
+                    Log.e("score ==== ", ""+pts);
                     insertReponse(idJoueur, idquestion, pts);
 
                     score = score + Integer.parseInt(questionResponse.correctAnswers.get(current_question_index).get("score"));
@@ -193,15 +195,15 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     void insertReponse(String idJoueur, String idquestion, int pts){
         ApiInterface apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
-        Call<Joueur> call = apiInterface.envoyer(idquestion, idJoueur, pts);
-        call.enqueue(new Callback<Joueur>() {
+        Call<ReponseJoueur> call = apiInterface.envoyer(idquestion, idJoueur, pts);
+        call.enqueue(new Callback<ReponseJoueur>() {
             @Override
-            public void onResponse(Call<Joueur> call, retrofit2.Response<Joueur> response) {
-                Log.e("Success", "");
+            public void onResponse(Call<ReponseJoueur> call, retrofit2.Response<ReponseJoueur> response) {
+                Log.e("Success", response.body().getStatus());
             }
 
             @Override
-            public void onFailure(Call<Joueur> call, Throwable t) {
+            public void onFailure(Call<ReponseJoueur> call, Throwable t) {
                 Log.e("Misy err login ", t.getMessage());
                 Log.e("err ", t.getCause().toString());
             }
