@@ -3,10 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="40dp"
     tools:context=".view.ScoreFragment">
 
-    <ListView
-        android:id="@+id/lst_score"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Mon Score"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Historique de score par theme"
+            />
+
+        <ListView
+            android:layout_marginTop="30dp"
+            android:id="@+id/lst_score"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
 </RelativeLayout>
