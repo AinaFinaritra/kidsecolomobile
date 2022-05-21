@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
 import com.android.volley.Request;
@@ -37,6 +38,8 @@ public class HomeFragment extends Fragment {
     ListView liste_theme;
     private ThemeController themeController;
     String url = Constante.url+"/theme/all";
+    SimpleAdapter adapter;
+    SearchView search_bar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
         liste_theme = (ListView) view.findViewById(R.id.liste_theme);
+        search_bar = view.findViewById(R.id.search_bar);
 
         //RESTAPI get theme
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
@@ -75,7 +79,7 @@ public class HomeFragment extends Fragment {
                         themeController.setTheme(theme);
 
                         // affichage de la liste
-                        SimpleAdapter adapter = new SimpleAdapter(view.getContext(), theme, R.layout.theme_item,
+                        adapter = new SimpleAdapter(view.getContext(), theme, R.layout.theme_item,
                                 new String[]{"theme", "description"},
                                 new int[]{R.id.theme, R.id.description}
                         );
@@ -103,6 +107,21 @@ public class HomeFragment extends Fragment {
             }
         });
         // click sur liste end
+
+        //search
+        search_bar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+        });
+        //search
 
         return view;
     }
