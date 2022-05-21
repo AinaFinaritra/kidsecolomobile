@@ -1,12 +1,8 @@
 package com.example.ecomania.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,9 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -55,6 +52,11 @@ public class SettingFragment extends Fragment {
     int check = 0;
     String url = Constante.url+"/joueur/niveau";
 
+    TextView nomJoueur;
+    TextView prenomJoueur;
+    TextView pseudoJoueur;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -81,6 +83,7 @@ public class SettingFragment extends Fragment {
                 setting_connexion.setVisibility(View.VISIBLE);
             }
         });
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,6 +179,9 @@ public class SettingFragment extends Fragment {
         spn_niveau = view.findViewById(R.id.spn_niveau);
         niveau_selected = view.findViewById(R.id.niveau_selected);
         aPropos = view.findViewById(R.id.aPropos);
+        pseudoJoueur = view.findViewById(R.id.pseudo);
+        prenomJoueur = view.findViewById(R.id.prenom);
+        nomJoueur = view.findViewById(R.id.nom);
     }
 
     private void loadAproposWeb(String link){
@@ -191,6 +197,9 @@ public class SettingFragment extends Fragment {
         if(user_id != null){
             info_user.setVisibility(View.VISIBLE);
             setting_connexion.setVisibility(View.INVISIBLE);
+            nomJoueur.setText(pref.getString("nom", "Votre nom s'affichera ici une fois connecté"));
+            prenomJoueur.setText(pref.getString("prenom", "Votre prenom s'affichera ici une fois connecté"));
+            pseudoJoueur.setText(pref.getString("pseudo", "Votre pseudo s'affichera ici une fois connecté"));
         }else{
             info_user.setVisibility(View.INVISIBLE);
             setting_connexion.setVisibility(View.VISIBLE);

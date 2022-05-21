@@ -100,7 +100,9 @@ public class LoginActivity extends AppCompatActivity {
                     //stockage dans la persistance
                     SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                     SharedPreferences.Editor edit = pref.edit();
-                    edit.putString("username", jm.getPseudo());
+                    edit.putString("pseudo", jm.getPseudo());
+                    edit.putString("nom", jm.getNom());
+                    edit.putString("prenom", jm.getPrenoms());
                     edit.putString("user_id", jm.getId());
                     edit.commit();
                     String username = pref.getString("user_id", "null");
