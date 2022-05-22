@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="nombre de question"
         android:layout_centerHorizontal="true"
-        android:textSize="24dp"
+        android:textSize="20dp"
         />
 
     <TextView
@@ -22,11 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/total_question"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
         android:text="Niveau"
-        android:layout_centerHorizontal="true"
-        android:textSize="24dp"
-        android:layout_marginTop="40dp"
-        />
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/question"

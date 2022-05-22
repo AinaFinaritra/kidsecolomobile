@@ -73,7 +73,7 @@ public class DetailThemeItemAdapter extends RecyclerView.Adapter<DetailThemeItem
             holder.video.setMediaController(mediaController);
             mediaController.setAnchorView(holder.video);
 
-            //holder.video.start();
+            holder.video.start();
         }else{
             holder.video.setVisibility(RelativeLayout.GONE);
         }
