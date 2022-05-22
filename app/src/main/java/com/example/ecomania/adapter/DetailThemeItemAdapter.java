@@ -1,12 +1,10 @@
 package com.example.ecomania.adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -16,10 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecomania.R;
 import com.example.ecomania.model.DetailsTheme;
+import com.example.ecomania.utils.LoadImage;
 
 import java.util.ArrayList;
-
-import com.example.ecomania.utils.LoadImage;
 
 public class DetailThemeItemAdapter extends RecyclerView.Adapter<DetailThemeItemAdapter.MyViewHolder> {
 
@@ -71,7 +68,12 @@ public class DetailThemeItemAdapter extends RecyclerView.Adapter<DetailThemeItem
         String video_url = detailsThemeArrayList.get(position).getVideo();
         if(video_url.compareToIgnoreCase("null")!=0 && video_url!=null && video_url != ""){
             holder.video.setVideoPath(video_url);
-            holder.video.start();
+
+            MediaController mediaController = new MediaController(holder.video.getContext());
+            holder.video.setMediaController(mediaController);
+            mediaController.setAnchorView(holder.video);
+
+            //holder.video.start();
         }else{
             holder.video.setVisibility(RelativeLayout.GONE);
         }
