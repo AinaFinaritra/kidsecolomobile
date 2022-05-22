@@ -100,7 +100,7 @@
         android:layout_below="@id/input_inscription"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/design_default_color_primary"
-        android:text="GO !"
+        android:text="S'INSCRIRE"
         android:textColor="@color/white" />
 
 </RelativeLayout>

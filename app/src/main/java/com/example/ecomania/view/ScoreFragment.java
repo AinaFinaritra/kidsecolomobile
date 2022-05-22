@@ -1,12 +1,8 @@
 package com.example.ecomania.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +12,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,8 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ecomania.R;
-import com.example.ecomania.controller.ScoreparthemeController;
-import com.example.ecomania.controller.ThemeController;
 import com.example.ecomania.utils.Constante;
 import com.example.ecomania.utils.LoadingDialogue;
 
@@ -86,11 +82,12 @@ public class ScoreFragment extends Fragment {
                                         map.put("pts", item.getString("score"));
                                         score.add(map);
                                     }
-                                    loadingDialogue.dismissLoadingDialog();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
+                            loadingDialogue.dismissLoadingDialog();
 
                             //affichage de la liste
                             SimpleAdapter adapter = new SimpleAdapter(view.getContext(), score, R.layout.score_item,
